@@ -36,3 +36,6 @@ module clk_div(
   assign y = count[0] | q;
 
 endmodule
+/////
+assert property (@(posedge clk) (rst |-> (count == 0)));
+assert property (@(negedge clk) (q == $past(count[0])));
