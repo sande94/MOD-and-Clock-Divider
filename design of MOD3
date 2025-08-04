@@ -1,0 +1,38 @@
+// Code your design here
+// Code your testbench here
+// or browse Examples
+module clk_div(
+  input  wire clk,
+  input  wire rst,
+  //output wire clk_div3
+);
+ wire y;
+  // 1st stage: MOD-3 counter (counts 0, 1, 2, then resets)
+  reg [2:0] count;
+ 
+ // assign clk_div3 = count[0];
+  always @(posedge clk or posedge rst) begin
+    if (rst)
+      count <= 0;
+    else if (count == 2)
+      count <= 0;
+    else
+      count <= count + 1;
+  end
+
+  // Output from MOD-3 counter (e.g., pulse on count==0)
+  //wire count_pulse = (count == 0);
+
+  // 2nd stage: D flip-flop to store pulse
+  reg q;
+  always @(negedge clk or posedge rst) begin
+    if (rst)
+      q <= 0;
+    else
+      q <= count[0];
+  end
+
+  // Final output: OR of pulse and flip-flop output
+  assign y = count[0] | q;
+
+endmodule
